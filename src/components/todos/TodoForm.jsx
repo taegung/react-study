@@ -1,7 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { TODO_CATEGORY_ICON } from '@/constants/icon'
-const TodoForm = ({onClose}) => {
+
+const TodoForm = ({onClose,onAdd}) => {
+
+    //각각의 입력폼을 개별 상태로 관리
+    const [title, setTitle] = useState('');
+    const [summary, setSummary] = useState('');
+    const [category, setCategory] = useState('TODO');
     
+  
+
+    const addTodoHandler = () => {
+        //App.js로부터 전달받은 onAdd동일
+         onAdd(title, summary, category);
+         //modal창 닫기
+         onClose();
+    }
+
+    //onAdd(title, summary, category); //addTodoHandler() 호출동일
     return (
         <>
             <h3 className="text-3xl text-red-200">할일 등록</h3>
@@ -9,17 +25,23 @@ const TodoForm = ({onClose}) => {
                 <div>
                     <label className='block mb-2 text-xl text-white' htmlFor='title'>Title</label>
                     <input className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded' 
-                           type='text' id='title' />
+                           type='text' id='title' 
+                           value={title}
+                           onChange={event=>setTitle(event.target.value)} />
                 </div>
                 <div>
                     <label className='block mb-2 text-xl text-white' htmlFor='summary'>Summary</label>
                     <textarea className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded' 
-                              id='summary' rows='5' />
+                              id='summary' rows='5'
+                              value={summary}
+                              onChange={event=>setSummary(event.target.value)} />
                 </div>
                 <div>
                     <label className='block mb-2 text-xl text-white' htmlFor='category'>Category</label>
                     <select className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-gray-900 rounded' 
-                            id='category' >
+                            id='category'
+                            value={category}
+                            onChange={event=>setCategory(event.target.value)}>
                         <option value='TODO'>{TODO_CATEGORY_ICON.TODO} To do</option>
                         <option value='PROGRESS'>{TODO_CATEGORY_ICON.PROGRESS} On progress</option>
                         <option value='DONE'>{TODO_CATEGORY_ICON.DONE} Done</option>
@@ -28,9 +50,10 @@ const TodoForm = ({onClose}) => {
 
                 <div className='flex justify-end gap-4'>
                     <button 
-                    onClick={onClose}
+                     onClick={onClose}
                      className='text-xl text-white' type='button'>Cancel</button>
-                    <button className='px-6 py-3 text-xl text-red-200' type='button'>Add</button>
+                    <button  className='px-6 py-3 text-xl text-red-200' type='button'
+                    onClick={addTodoHandler}>Add</button>
                 </div>
             </form>
         </>

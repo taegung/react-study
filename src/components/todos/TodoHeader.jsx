@@ -5,7 +5,7 @@ import Modal from '../ui/Modal';
 import TodoForm from './TodoForm';
 
 
-const TodoHeader = () => {
+const TodoHeader = ({onAdd}) => {
   const [openModal,open] =useState(false);
 
   return (
@@ -20,7 +20,7 @@ const TodoHeader = () => {
       <Modal>
         {/* 함수도 props로 전달 가능하다 */}
         {/* Todoheader가 가진 open()함수 시그니처를 onclose라는 props이름으로 TodoForm에 전달 */}
-        <TodoForm onClose={()=>open(false)}/>
+        <TodoForm onClose={()=>open(false)} onAdd={onAdd}/>
       </Modal>,
       document.body
     )}
