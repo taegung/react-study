@@ -5,7 +5,7 @@ import Modal from '../ui/Modal';
 import TodoForm from './TodoForm';
 import { createPortal } from 'react-dom';
 
-const TodoItem = ({ todo,onUpdate}) => {
+const TodoItem = ({ todo,onUpdate,onDelete}) => {
   const [openModal, open] = useState(false);
 
   return (
@@ -19,11 +19,11 @@ const TodoItem = ({ todo,onUpdate}) => {
         </div>
         <div className="flex items-center gap-1">
             <IconButton onClick={() => open(true)}  icon={'✏️'}/>
-            <IconButton icon={'🗑'} />
+            <IconButton onClick={()=>onDelete(todo.id)} icon={'🗑'} />
         </div>
         {openModal && createPortal(
           <Modal>
-            <TodoForm onClose={() => open(false)} todo={todo} onAddOrUpdate={onUpdate} >Update Todo</TodoForm>
+            <TodoForm onClose={() => open(false)} todo={todo} onAddOrUpdate={onUpdate} >할일 수정</TodoForm>
           </Modal>,
           document.body
         )}

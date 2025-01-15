@@ -5,7 +5,7 @@ import Modal from '../ui/Modal';
 import TodoForm from './TodoForm';
 
 
-const TodoHeader = ({onAdd}) => {
+const TodoHeader = ({onAdd,category,onFilter}) => {
   const [openModal,open] =useState(false);
 
   return (
@@ -21,13 +21,13 @@ const TodoHeader = ({onAdd}) => {
         {/* 함수도 props로 전달 가능하다 */}
         {/* Todoheader가 가진 open()함수 시그니처를 onclose라는 props이름으로 TodoForm에 전달 */}
         <TodoForm onClose={()=>open(false)} onAddOrUpdate={onAdd}>
-          New Todo
+          할일 등록
         </TodoForm>
       </Modal>,
       document.body
     )}
     
-    <TodoFilter/>
+    <TodoFilter category={category} onFilter={onFilter} />
   </div>
   )
 }

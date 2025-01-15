@@ -2,7 +2,7 @@ import React from 'react'
 import TodoItem from './TodoItem'
 
 
-const TodoBody = ({todos,onAdd}) => {
+const TodoBody = ({todos,onUpdate,onDelete}) => {
   return (
     <ul
         className='px-0 my-8'>
@@ -10,6 +10,7 @@ const TodoBody = ({todos,onAdd}) => {
                                 todo={todo}
                                 key={todo.id}
                                 onUpdate={onUpdate}
+                                onDelete={onDelete}
                                 />)}
     </ul> 
   )
