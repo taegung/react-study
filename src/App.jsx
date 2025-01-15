@@ -42,9 +42,17 @@ function App() {
       category
     }
     //새롭게 업데이트할 할일 목록 데이터 생성
-    const updatedTodos = [...todos,newTodo];//...- js spread 문법
+    const updatedTodos = [...todos,newTodo];//...- js spread 문법  
+
+    
     setTodos(updatedTodos);
   }
+
+  const updateTodoHandler = (updateTodo) => {
+    const updatedTodos = todos.map(todo => todo.id === updateTodo.id ? { ...updateTodo } : todo);
+    setTodos(updatedTodos);
+  }
+  
 
   return (
     <>
@@ -62,10 +70,10 @@ function App() {
 
         <section className='max-w-xl m-4 mx-auto'>
           {/* TodoHeader- 할일 추가, 필터링 UI */}
-          <TodoHeader onAdd={addTodoHandler}/>
+          <TodoHeader onAdd={addTodoHandler} />
 
           {/* TodoBody- 할일 목록 데이터 UI */}
-           <TodoBody todos={todos}/>
+           <TodoBody todos={todos} onUpdate={updateTodoHandler} />
         </section>
 
       </DefaultLayout>    

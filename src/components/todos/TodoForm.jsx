@@ -1,26 +1,36 @@
-import React, { useState } from 'react'
+import React, { Children, useState } from 'react'
 import { TODO_CATEGORY_ICON } from '@/constants/icon'
 
-const TodoForm = ({onClose,onAdd}) => {
+const TodoForm = ({onAddOrUpdate, onClose, children, todo}) => {
 
+    
     //각각의 입력폼을 개별 상태로 관리
-    const [title, setTitle] = useState('');
-    const [summary, setSummary] = useState('');
-    const [category, setCategory] = useState('TODO');
+    const isNewTodoForm =() =>children.startsWith('New')? true:false;
+
+    const [title, setTitle] = useState(isNewTodoForm()? '':todo.title);
+    const [summary, setSummary] = useState(isNewTodoForm()? '':todo.summary);
+    const [category, setCategory] = useState(isNewTodoForm()? 'Todo':todo.category);
     
   
 
-    const addTodoHandler = () => {
-        //App.js로부터 전달받은 onAdd동일
-         onAdd(title, summary, category);
-         //modal창 닫기
-         onClose();
+    const addOrUpdateTodoHandler = () => {
+        if (isNewTodoForm(children)) {
+            onAddOrUpdate({title, summary, category});
+        } else {
+            const updateTodo = {
+                id: todo.id,
+                title,
+                summary,
+                category
+            }
+            onAddOrUpdate(updateTodo);
+        }
+        onClose();
     }
-
     //onAdd(title, summary, category); //addTodoHandler() 호출동일
     return (
         <>
-            <h3 className="text-3xl text-red-200">할일 등록</h3>
+            <h3 className="text-3xl text-red-200">{children}</h3>
             <form className='my-2'>
                 <div>
                     <label className='block mb-2 text-xl text-white' htmlFor='title'>Title</label>
@@ -53,7 +63,7 @@ const TodoForm = ({onClose,onAdd}) => {
                      onClick={onClose}
                      className='text-xl text-white' type='button'>Cancel</button>
                     <button  className='px-6 py-3 text-xl text-red-200' type='button'
-                    onClick={addTodoHandler}>Add</button>
+                    onClick={addOrUpdateTodoHandler}>{isNewTodoForm(children) ? '등록' : '수정'}</button>
                 </div>
             </form>
         </>

@@ -20,7 +20,9 @@ const TodoHeader = ({onAdd}) => {
       <Modal>
         {/* 함수도 props로 전달 가능하다 */}
         {/* Todoheader가 가진 open()함수 시그니처를 onclose라는 props이름으로 TodoForm에 전달 */}
-        <TodoForm onClose={()=>open(false)} onAdd={onAdd}/>
+        <TodoForm onClose={()=>open(false)} onAddOrUpdate={onAdd}>
+          New Todo
+        </TodoForm>
       </Modal>,
       document.body
     )}
