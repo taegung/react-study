@@ -28,8 +28,9 @@ const dummyTodos = [
 function App() {
 
   const [todos, setTodos] = useState(dummyTodos);
-  const [selectedCategory, setFilter] = useState('ALL');
-
+ 
+ 
+ 
   const addTodoHandler = (title, summary, category) => {
     const newTodo = {
       id: self.crypto.randomUUID(), // ID 식별용 값
@@ -51,6 +52,7 @@ function App() {
     const updatedTodos = todos.map(todo => todo.id === updateTodo.id ? { ...updateTodo } : todo);
     setTodos(updatedTodos);
   }
+ 
 
   // const deleteTodoHandler = (id) => setTodos(todos.filter(todo => todo.id !== id));
   const deleteTodoHandler = (id) => {
@@ -59,10 +61,25 @@ function App() {
     setTodos(updatedTodos);
   }
 
-  // 필터링 후 렌더링
-  const filterTodos = () => selectedCategory === 'ALL' ? 
-                              todos : todos.filter(todo => todo.category === selectedCategory);
-  const filteredTodos = filterTodos();
+  const [searchTerm, setSearchTerm] = useState('');
+const [selectedCategory, setFilter] = useState('ALL');
+
+// 필터링 로직
+const filterTodos = () => {
+  return todos.filter((todo) => {
+    const matchesCategory =
+      selectedCategory === 'ALL' || todo.category === selectedCategory;
+    const matchesSearch =
+      searchTerm === '' || todo.title.includes(searchTerm);
+    return matchesCategory && matchesSearch;
+  });
+};
+const filteredTodos = filterTodos();
+
+const handleSearch = (term) => {
+  setSearchTerm(term); // 검색어 상태 업데이트
+};
+
 
   return (
     <>
@@ -75,7 +92,7 @@ function App() {
         </header>
 
         <section className='max-w-xl m-4 mx-auto'>
-          <TodoHeader onAdd={addTodoHandler} category={selectedCategory} onFilter={setFilter}/>
+          <TodoHeader onAdd={addTodoHandler} category={selectedCategory} onFilter={setFilter}  onSearch={handleSearch} />
           <TodoBody todos={filteredTodos} onUpdate={updateTodoHandler} onDelete={deleteTodoHandler}/>
         </section>
       </DefaultLayout>    

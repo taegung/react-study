@@ -3,9 +3,10 @@ import TodoFilter from './TodoFliter'
 import { createPortal } from 'react-dom';
 import Modal from '../ui/Modal';
 import TodoForm from './TodoForm';
+import TodoSearch from './TodoSearch';
 
 
-const TodoHeader = ({onAdd,category,onFilter}) => {
+const TodoHeader = ({onAdd,category,onFilter,onSearch}) => {
   const [openModal,open] =useState(false);
 
   return (
@@ -26,7 +27,7 @@ const TodoHeader = ({onAdd,category,onFilter}) => {
       </Modal>,
       document.body
     )}
-    
+     <TodoSearch onSearch={onSearch} />
     <TodoFilter category={category} onFilter={onFilter} />
   </div>
   )
