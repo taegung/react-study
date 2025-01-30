@@ -1,13 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TODO_CATEGORY_ICON } from '@/constants/icon';
 import IconButton from '../ui/IconButton';
-import Modal from '../ui/Modal';
-import TodoForm from './TodoForm';
-import { createPortal } from 'react-dom';
-
-const TodoItem = ({ todo,onUpdate,onDelete}) => {
-  const [openModal, open] = useState(false);
-
+// TodoBody에서 todo라는 이름의 props를 전달(내려줬음)
+const TodoItem = ({ todo }) => {
   return (
     <li className="flex gap-4 justify-between my-4 py-4 px-4 border-[1px] bg-gray-700 rounded-md shadow-xl">
         <div>
@@ -18,15 +13,9 @@ const TodoItem = ({ todo,onUpdate,onDelete}) => {
             </div>
         </div>
         <div className="flex items-center gap-1">
-            <IconButton onClick={() => open(true)}  icon={'✏️'}/>
-            <IconButton onClick={()=>onDelete(todo.id)} icon={'🗑'} />
+            <IconButton icon={'✏️'}/>
+            <IconButton icon={'🗑'} />
         </div>
-        {openModal && createPortal(
-          <Modal>
-            <TodoForm onClose={() => open(false)} todo={todo} onAddOrUpdate={onUpdate} >할일 수정</TodoForm>
-          </Modal>,
-          document.body
-        )}
     </li>
   )
 }
